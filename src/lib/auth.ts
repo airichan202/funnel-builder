@@ -1,6 +1,10 @@
 import type { NextAuthConfig } from "next-auth";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { db } from "./db";
+import { users } from "./db/schema";
+import { eq } from "drizzle-orm";
+import bcrypt from "bcryptjs";
 
 const authConfig: NextAuthConfig = {
   providers: [
@@ -12,11 +16,6 @@ const authConfig: NextAuthConfig = {
       authorize: async (credentials) => {
         const { email, password } = credentials as { email: string; password: string };
         if (!email || !password) return null;
-
-        const { db } = await import("./db");
-        const { users } = await import("./db/schema");
-        const { eq } = await import("drizzle-orm");
-        const bcrypt = await import("bcryptjs");
 
         const [user] = await db
           .select()

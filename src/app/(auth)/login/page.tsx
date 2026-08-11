@@ -1,4 +1,4 @@
-import { signIn } from "next-auth/react";
+import { signIn } from "@/lib/auth";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -11,7 +11,7 @@ export default function LoginPage() {
             "use server";
             const email = formData.get("email") as string;
             const password = formData.get("password") as string;
-            await signIn("credentials", { email, password, redirect: true, callbackUrl: "/dashboard" });
+            await signIn("credentials", { email, password, redirectTo: "/dashboard" });
           }}
         >
           <div className="mb-4">
